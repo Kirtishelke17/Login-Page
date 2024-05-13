@@ -40,7 +40,7 @@ class _FormScreenState extends State<FormScreen> {
           padding: EdgeInsets.all(20.0),
           child: SizedBox(
             width: 400,
-            height: 550,
+            height: 600,
             child: Container(
               padding: EdgeInsets.all(20.0),
               decoration: BoxDecoration(
