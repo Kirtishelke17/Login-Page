@@ -40,7 +40,7 @@ class _FormScreenState extends State<FormScreen> {
           padding: EdgeInsets.all(20.0),
           child: SizedBox(
             width: 400,
-            height: 550, // Updated height to 550
+            height: 550,
             child: Container(
               padding: EdgeInsets.all(20.0),
               decoration: BoxDecoration(
@@ -174,16 +174,13 @@ class _FormScreenState extends State<FormScreen> {
                                   actions: [
                                     TextButton(
                                       onPressed: () {
-                                        // Add logic to handle password reset
-                                        Navigator.of(context)
-                                            .pop(); // Close the dialog
+                                        Navigator.of(context).pop();
                                       },
                                       child: Text("Reset"),
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context)
-                                            .pop(); // Close the dialog
+                                        Navigator.of(context).pop();
                                       },
                                       child: Text("Cancel"),
                                     ),
