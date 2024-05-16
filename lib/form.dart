@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'chat.dart';
 
 class FormScreen extends StatefulWidget {
   @override
@@ -11,12 +12,19 @@ class _FormScreenState extends State<FormScreen> {
   final passController = TextEditingController();
   bool passToggle = true;
 
+  void _navigateToChatScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ChatScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
           "Instagram Log In Page",
@@ -164,30 +172,9 @@ class _FormScreenState extends State<FormScreen> {
                         Spacer(),
                         TextButton(
                           onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Forgot Password"),
-                                  content: Text(
-                                      "Please enter your email to reset your password."),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text("Reset"),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text("Cancel"),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                            if (_formfield.currentState!.validate()) {
+                              _navigateToChatScreen(context);
+                            }
                           },
                           child: Text(
                             "Forgot Password?",
@@ -207,6 +194,8 @@ class _FormScreenState extends State<FormScreen> {
                           print("Data Added Successfully");
                           emailOrMobileController.clear();
                           passController.clear();
+
+                          _navigateToChatScreen(context);
                         }
                       },
                       child: Container(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_page/form.dart';
+import 'package:login_page/chat.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,6 +15,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.indigo,
       ),
       home: FormScreen(),
+      routes: {
+        '/chat': (context) => ChatScreen(),
+      },
     );
   }
 }
