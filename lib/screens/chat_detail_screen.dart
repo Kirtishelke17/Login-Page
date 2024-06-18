@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'chat.dart';
+import '../models/chat_message.dart';
+import '../utils/validator.dart'; 
 
 class ChatDetailScreen extends StatefulWidget {
   final ChatMessage chatMessage;
@@ -49,7 +50,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
+                  child: TextFormField(
                     controller: messageController,
                     decoration: InputDecoration(
                       hintText: 'Type a message',
@@ -57,15 +58,19 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
+                    validator: (value) => Validator.validateMessage(value),
                   ),
                 ),
                 IconButton(
                   icon: Icon(Icons.send),
                   onPressed: () {
-                    setState(() {
-                      widget.chatMessage.messages.add(messageController.text);
-                      messageController.clear();
-                    });
+                    if (Validator.validateMessage(messageController.text) ==
+                        null) {
+                      setState(() {
+                        widget.chatMessage.messages.add(messageController.text);
+                        messageController.clear();
+                      });
+                    }
                   },
                 ),
               ],

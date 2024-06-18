@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'chat.dart';
+import '../utils/validator.dart';
+import '../widgets/custom_text_form_field.dart';
 
 class FormScreen extends StatefulWidget {
   @override
@@ -7,16 +8,13 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  final _formfield = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final emailOrMobileController = TextEditingController();
   final passController = TextEditingController();
   bool passToggle = true;
 
   void _navigateToChatScreen(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ChatScreen()),
-    );
+    Navigator.pushNamed(context, '/chat');
   }
 
   @override
@@ -64,7 +62,7 @@ class _FormScreenState extends State<FormScreen> {
                 ],
               ),
               child: Form(
-                key: _formfield,
+                key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -105,66 +103,30 @@ class _FormScreenState extends State<FormScreen> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    TextFormField(
-                      keyboardType: TextInputType.emailAddress,
+                    CustomTextFormField(
                       controller: emailOrMobileController,
-                      decoration: InputDecoration(
-                        hintText: "Email or Phone Number",
-                        hintStyle: TextStyle(color: Colors.grey),
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        prefixIcon: Icon(Icons.person, color: Colors.grey),
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Enter Email or Mobile Number";
-                        } else if (!value.contains('@') && value.length != 10) {
-                          return "Enter Valid Email or Mobile Number";
-                        }
-                        return null;
-                      },
+                      hintText: "Email or Phone Number",
+                      icon: Icons.person,
+                      validator: Validator.validateEmailOrPhone,
                     ),
                     SizedBox(height: 10),
-                    TextFormField(
-                      keyboardType: TextInputType.emailAddress,
+                    CustomTextFormField(
                       controller: passController,
+                      hintText: "Password",
+                      icon: Icons.lock,
                       obscureText: passToggle,
-                      decoration: InputDecoration(
-                        hintText: "Password",
-                        hintStyle: TextStyle(color: Colors.grey),
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
-                        ),
-                        prefixIcon: Icon(Icons.lock, color: Colors.grey),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              passToggle = !passToggle;
-                            });
-                          },
-                          icon: Icon(
-                            passToggle
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Colors.grey,
-                          ),
+                      validator: Validator.validatePassword,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            passToggle = !passToggle;
+                          });
+                        },
+                        icon: Icon(
+                          passToggle ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.grey,
                         ),
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Enter Password";
-                        } else if (passController.text.length < 6) {
-                          return "Password Length should be more than 6 characters ";
-                        }
-                        return null;
-                      },
                     ),
                     SizedBox(height: 10),
                     Row(
@@ -172,7 +134,7 @@ class _FormScreenState extends State<FormScreen> {
                         Spacer(),
                         TextButton(
                           onPressed: () {
-                            if (_formfield.currentState!.validate()) {
+                            if (_formKey.currentState!.validate()) {
                               _navigateToChatScreen(context);
                             }
                           },
@@ -190,7 +152,7 @@ class _FormScreenState extends State<FormScreen> {
                     SizedBox(height: 10),
                     GestureDetector(
                       onTap: () {
-                        if (_formfield.currentState!.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           print("Data Added Successfully");
                           emailOrMobileController.clear();
                           passController.clear();
