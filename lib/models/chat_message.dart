@@ -1,5 +1,3 @@
-// chat_message.dart
-
 class ChatMessage {
   final String imageUrl;
   final String name;
